@@ -14,6 +14,12 @@
 	<meta name="keywords" content="{$metaSearchKeywords|escape}" />
 	<meta name="generator" content="{$applicationName} {$currentVersionString|escape}" />
 	{$metaCustomHeaders}
+	<!-- begin langsci adding metadata to the header, if the current page ist a bookpage -->
+	{if $bookPage}
+		{include file="catalog/book/googlescholar.tpl"}
+		{include file="catalog/book/dublincore.tpl"}
+	{/if}
+	<!-- end langsci -->
 	{if $displayFavicon}<link rel="icon" href="{$faviconDir}/{$displayFavicon.uploadName|escape:"url"}" type="{$displayFavicon.mimeType|escape}" />{/if}
 
 	<!-- Base Jquery -->
