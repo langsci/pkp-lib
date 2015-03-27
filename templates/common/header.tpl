@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="{$currentLocale|replace:"_":"-"}" xml:lang="{$currentLocale|replace:"_":"-"}">
 {if !$pageTitleTranslated}{translate|assign:"pageTitleTranslated" key=$pageTitle}{/if}
-{include file="core:common/headerHead.tpl"}
+{include file="core:common/headerHead.tpl" bookPage=$bookPage}
 <body>
 	<script type="text/javascript">
 		// Initialise JS handler.
