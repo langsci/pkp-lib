@@ -131,10 +131,7 @@ current password.<br /><br />Enter your email address below to reset your passwo
 	<message key="user.role.layoutEditor">Layout Editor</message>
 	<message key="user.role.layoutEditors">Layout Editors</message>
 	<message key="user.roles">Roles</message>
-
-<!--	<message key="user.salutation">Salutation</message>  geändert: Carola Fanselow -->
-
-	<message key="user.salutation">Academic title</message>
+	<message key="user.salutation">Salutation</message>
 	<message key="user.sendPassword">Confirmation</message>
 	<message key="user.sendPassword.description">Send me a confirmation email including my username and password</message>
 	<message key="user.signature">Signature</message>
