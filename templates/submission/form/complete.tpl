@@ -15,9 +15,12 @@
 <p>{translate key="submission.submit.whatNext.forNow"}</p>
 
 <ul class="plain">
+	{** Carola Fanselow: expedite wird temporär entfernt **}
+	{**
 	{if $canExpedite}
 		<li>{include file="linkAction/linkAction.tpl" action=$expediteLinkAction}</li>
 	{/if}
+	**}
 	<li><a href={$reviewSubmissionUrl}>{translate key="submission.submit.whatNext.review"}</a></li>
 	<li><a href={url page="submission" op="wizard"}>{translate key="submission.submit.whatNext.create"}</a></li>
 	<li><a href={url page="dashboard" anchor="submissions"}>{translate key="submission.submit.whatNext.return"}</a></li>
