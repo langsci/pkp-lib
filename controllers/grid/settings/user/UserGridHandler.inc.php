@@ -34,12 +34,7 @@ class UserGridHandler extends GridHandler {
 				'editDisableUser', 'disableUser', 'removeUser', 'addUser',
 				'editEmail', 'sendEmail')
 		);
-		$this->addRoleAssignment(array(
-			ROLE_ID_SUB_EDITOR),
-			array('fetchGrid', 'fetchRow', 'editUser', 'updateUser', 'updateUserRoles',
-				'editDisableUser', 'disableUser', 'removeUser', 'addUser',
-				'editEmail', 'sendEmail')
-		);
+		$this->addRoleAssignment(array(ROLE_ID_SUB_EDITOR),array('sendEmail'));
 		$this->addRoleAssignment(array(ROLE_ID_SITE_ADMIN), array('mergeUsers'));
 	}
 
@@ -507,10 +502,10 @@ class UserGridHandler extends GridHandler {
 		// Identify the user Id.
 		$userId = $request->getUserVar('userId');
 
-		if ($userId !== null && !Validation::canAdminister($userId, $user->getId())) {
+		//if ($userId !== null && !Validation::canAdminister($userId, $user->getId())) {
 			// We don't have administrative rights over this user.
-			$json = new JSONMessage(false, __('grid.user.cannotAdminister'));
-		} else {
+		//	$json = new JSONMessage(false, __('grid.user.cannotAdminister'));
+		//} else {
 			// Form handling.
 			import('lib.pkp.controllers.grid.settings.user.form.UserEmailForm');
 			$userEmailForm = new UserEmailForm($userId);
@@ -522,7 +517,7 @@ class UserGridHandler extends GridHandler {
 			} else {
 				$json = new JSONMessage(false, $userEmailForm->display($args, $request));
 			}
-		}
+		//}
 		return $json->getString();
 	}
 
