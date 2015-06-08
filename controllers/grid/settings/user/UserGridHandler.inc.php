@@ -34,7 +34,7 @@ class UserGridHandler extends GridHandler {
 				'editDisableUser', 'disableUser', 'removeUser', 'addUser',
 				'editEmail', 'sendEmail')
 		);
-		$this->addRoleAssignment(array(ROLE_ID_SUB_EDITOR), array('sendEmail'));
+		$this->addRoleAssignment(array(ROLE_ID_SUB_EDITOR), array('sendEmail','editUser'));
 		$this->addRoleAssignment(array(ROLE_ID_SITE_ADMIN), array('mergeUsers'));
 	}
 
