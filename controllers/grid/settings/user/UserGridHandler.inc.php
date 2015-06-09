@@ -34,7 +34,9 @@ class UserGridHandler extends GridHandler {
 				'editDisableUser', 'disableUser', 'removeUser', 'addUser',
 				'editEmail', 'sendEmail')
 		);
+		/* code changed, Carola Fanselow: let series editors send mail */
 		$this->addRoleAssignment(array(ROLE_ID_SUB_EDITOR),array('sendEmail'));
+
 		$this->addRoleAssignment(array(ROLE_ID_SITE_ADMIN), array('mergeUsers'));
 	}
 
@@ -501,6 +503,8 @@ class UserGridHandler extends GridHandler {
 
 		// Identify the user Id.
 		$userId = $request->getUserVar('userId');
+
+		/* code changed, Carola Fanselow: let series editors send mail: remove canAdminister-check temporarily */
 
 		//if ($userId !== null && !Validation::canAdminister($userId, $user->getId())) {
 			// We don't have administrative rights over this user.
