@@ -142,7 +142,7 @@ class MailTemplate extends Mail {
 
 		
 		// Carola Fanselow: default for replyTo-address is noreply
-		$this->setReplyTo('noreply@langsci-press.org', 'Language Science Press');
+		//$this->setReplyTo('noreply@langsci-press.org', 'Language Science Press');
 		if ($user) {
 			$this->setReplyTo($user->getEmail(), $user->getFullName());
 		}
@@ -299,8 +299,8 @@ class MailTemplate extends Mail {
 			// Carola Fanselow: email header set in MailTemplate to add variable (user name)
 			//	$header = $this->context->getSetting('emailHeader');
 			$user = Request::getUser();
-			$header = "<p>The following message is being delivered on behalf of " . $user->getFullName() .".</p>
-							<p>________________________________________________________________________</p>";
+			$header = "The following message is being delivered on behalf of " . $user->getFullName() .
+						 "\r\n________________________________________________________________________";
 			
 			if (strstr($this->getBody(), '{$templateHeader}') === false) {
 				$this->setBody($header . "\n" . $this->getBody());
