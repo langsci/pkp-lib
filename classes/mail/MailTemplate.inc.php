@@ -140,16 +140,22 @@ class MailTemplate extends Mail {
 			}
 		}
 
-		// Default "From" to user if available, otherwise site/context principal contact
+		
+		// Carola Fanselow: default for replyTo-address is noreply
+		$this->setReplyTo('noreply@langsci-press.org', 'Language Science Press');
 		if ($user) {
 			$this->setReplyTo($user->getEmail(), $user->getFullName());
 		}
+
+		// Carola Fanselow: from-address always set to noreply
+		$this->setFrom('noreply@langsci-press.org', 'Language Science Press');
+		/* // Default "From" to user if available, otherwise site/context principal contact
 		if (!$context) {
 			$site = $request->getSite();
 			$this->setFrom($site->getLocalizedContactEmail(), $site->getLocalizedContactName());
 		} else {
 			$this->setFrom($context->getSetting('contactEmail'), $context->getSetting('contactName'));
-		}
+		}*/
 
 		if ($context && !$request->getUserVar('continued')) {
 			$this->setSubject('[' . $context->getLocalizedAcronym() . '] ' . $this->getSubject());
@@ -289,7 +295,13 @@ class MailTemplate extends Mail {
 			// them. This is here to accomodate MIME-encoded
 			// messages or other cases where the signature cannot
 			// just be appended.
-			$header = $this->context->getSetting('emailHeader');
+
+			// Carola Fanselow: email header set in MailTemplate to add variable (user name)
+			//	$header = $this->context->getSetting('emailHeader');
+			$user = Request::getUser();
+			$header = "<p>The following message is being delivered on behalf of " . $user->getFullName() .".</p>
+							<p>________________________________________________________________________</p>";
+			
 			if (strstr($this->getBody(), '{$templateHeader}') === false) {
 				$this->setBody($header . "\n" . $this->getBody());
 			} else {
