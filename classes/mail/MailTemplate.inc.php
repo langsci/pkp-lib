@@ -296,11 +296,7 @@ class MailTemplate extends Mail {
 			// messages or other cases where the signature cannot
 			// just be appended.
 
-			// Carola Fanselow: email header set in MailTemplate to add variable (user name)
-			//	$header = $this->context->getSetting('emailHeader');
-			$user = Request::getUser();
-			$header = "The following message is being delivered on behalf of " . $user->getFullName() .
-						 "\r\n________________________________________________________________________";
+			$header = $this->context->getSetting('emailHeader');
 			
 			if (strstr($this->getBody(), '{$templateHeader}') === false) {
 				$this->setBody($header . "\n" . $this->getBody());
@@ -314,6 +310,12 @@ class MailTemplate extends Mail {
 			} else {
 				$this->setBody(str_replace('{$templateSignature}', $signature, $this->getBody()));
 			}
+
+			// Carola Fanselow: ersetzen von $senderName im gesamten body
+			if (!(strstr($this->getBody(), '{$senderName}') === false)) {
+				$this->setBody(str_replace('{$senderName}', Request::getUser()->getFullName(), $this->getBody()));
+			}
+			// Ende Carola Fanselow
 
 			$envelopeSender = $this->context->getSetting('envelopeSender');
 			if (!empty($envelopeSender) && Config::getVar('email', 'allow_envelope_sender')) $this->setEnvelopeSender($envelopeSender);
