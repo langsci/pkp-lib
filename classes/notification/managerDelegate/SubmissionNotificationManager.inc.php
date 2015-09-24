@@ -44,7 +44,7 @@ class SubmissionNotificationManager extends NotificationManagerDelegate {
 
 		switch ($notification->getType()) {
 			case NOTIFICATION_TYPE_SUBMISSION_SUBMITTED:
-				return __('notification.type.submissionSubmitted', array('title' => $submission->getLocalizedTitle()));
+				return __('notification.type.submissionSubmitted', array('title' => $submission->getLocalizedTitle(),'series' => $series ->getLocalizedFullTitle()));
 			case NOTIFICATION_TYPE_METADATA_MODIFIED:
 				return __('notification.type.metadataModified', array('title' => $submission->getLocalizedTitle()));
 			case NOTIFICATION_TYPE_EDITOR_ASSIGNMENT_REQUIRED:
