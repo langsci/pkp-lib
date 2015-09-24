@@ -55,33 +55,6 @@ class SubmissionNotificationManager extends NotificationManagerDelegate {
 	}
 
 
-
-    public function getNotificationMessage($request, $notification) {
-        assert($notification->getAssocType() == ASSOC_TYPE_SUBMISSION && is_numeric($notification->getAssocId()));
-        $submissionDao = Application::getSubmissionDAO();
-        $submission = $submissionDao->getById($notification->getAssocId()); /* @var $submission Submission */
-
-
-        import('classes.monograph.MonographDAO');
-        $monographDAO = new MonographDAO;
-        $monograph = $monographDAO -> getById($submission->getId());
-        
-        switch ($notification->getType()) {
-            case NOTIFICATION_TYPE_SUBMISSION_SUBMITTED:
-                return __('notification.type.submissionSubmitted', array('title' => $submission->getLocalizedTitle(),'series' => $monograph->getSeriesTitle()));
-            case NOTIFICATION_TYPE_METADATA_MODIFIED:
-                return __('notification.type.metadataModified', array('title' => $submission->getLocalizedTitle()));
-            case NOTIFICATION_TYPE_EDITOR_ASSIGNMENT_REQUIRED:
-                return __('notification.type.editorAssignmentTask');
-            default:
-                assert(false);
-        }
-    }
-
-
-
-
-
 	/**
 	 * @copydoc PKPNotificationOperationManager::getNotificationUrl()
 	 */
