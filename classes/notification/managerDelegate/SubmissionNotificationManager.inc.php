@@ -14,6 +14,9 @@
  */
 
 import('lib.pkp.classes.notification.NotificationManagerDelegate');
+// Carola Fanselow: imports added
+import('classes.monograph.MonographDAO');
+import('classes.press.SeriesDAO');
 
 class SubmissionNotificationManager extends NotificationManagerDelegate {
 
@@ -33,6 +36,12 @@ class SubmissionNotificationManager extends NotificationManagerDelegate {
 		$submissionDao = Application::getSubmissionDAO();
 		$submission = $submissionDao->getById($notification->getAssocId()); /* @var $submission Submission */
 
+		// Carola Fanselow: series title added to template for notifications about new submissions
+		$monographDAO = new MonographDAO;
+		$seriesDAO = new SeriesDAO;
+		$monograph = $monographDAO -> getById($notification->getAssocId());
+		$series = $seriesDAO -> getById($monograph->getSeriesId());
+
 		switch ($notification->getType()) {
 			case NOTIFICATION_TYPE_SUBMISSION_SUBMITTED:
 				return __('notification.type.submissionSubmitted', array('title' => $submission->getLocalizedTitle()));
@@ -44,6 +53,34 @@ class SubmissionNotificationManager extends NotificationManagerDelegate {
 				assert(false);
 		}
 	}
+
+
+
+    public function getNotificationMessage($request, $notification) {
+        assert($notification->getAssocType() == ASSOC_TYPE_SUBMISSION && is_numeric($notification->getAssocId()));
+        $submissionDao = Application::getSubmissionDAO();
+        $submission = $submissionDao->getById($notification->getAssocId()); /* @var $submission Submission */
+
+
+        import('classes.monograph.MonographDAO');
+        $monographDAO = new MonographDAO;
+        $monograph = $monographDAO -> getById($submission->getId());
+        
+        switch ($notification->getType()) {
+            case NOTIFICATION_TYPE_SUBMISSION_SUBMITTED:
+                return __('notification.type.submissionSubmitted', array('title' => $submission->getLocalizedTitle(),'series' => $monograph->getSeriesTitle()));
+            case NOTIFICATION_TYPE_METADATA_MODIFIED:
+                return __('notification.type.metadataModified', array('title' => $submission->getLocalizedTitle()));
+            case NOTIFICATION_TYPE_EDITOR_ASSIGNMENT_REQUIRED:
+                return __('notification.type.editorAssignmentTask');
+            default:
+                assert(false);
+        }
+    }
+
+
+
+
 
 	/**
 	 * @copydoc PKPNotificationOperationManager::getNotificationUrl()
