@@ -440,17 +440,11 @@ abstract class PKPNotificationOperationManager implements INotificationInfoProvi
 			$site = $request->getSite();
 			$mail = $this->getMailTemplate('NOTIFICATION');
 
-			// Carola Fanselow
-			//$mail->setReplyTo($site->getLocalizedContactEmail(), $site->getLocalizedContactName());
-			$mail->setReplyTo('noreply@langsci-press.org', 'Language Science Press');
-			$mail->setFrom('noreply@langsci-press.org', 'Language Science Press');
-
 			$mail->assignParams(array(
 				'notificationContents' => $this->getNotificationContents($request, $notification),
 				'url' => $this->getNotificationUrl($request, $notification),
-				// Carola Fanselow: set site title to 'Language Science Press'
-				'siteTitle' => $site->getLocalizedTitle()
-				//'siteTitle' => 'Language Science Press'
+				'siteTitle' => $site->getLocalizedTitle(),
+				'notificationType' => $notification->getType(),
 			));
 			$mail->addRecipient($user->getEmail(), $user->getFullName());
 			if (!HookRegistry::call('PKPNotificationOperationManager::sendNotificationEmail', array($notification))) { 
