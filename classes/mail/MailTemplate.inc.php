@@ -140,22 +140,13 @@ class MailTemplate extends Mail {
 			}
 		}
 
-		
-		// Carola Fanselow: default for replyTo-address is noreply
-		//$this->setReplyTo('noreply@langsci-press.org', 'Language Science Press');
-		if ($user) {
-			$this->setReplyTo($user->getEmail(), $user->getFullName());
-		}
-
-		// Carola Fanselow: from-address always set to noreply
-		$this->setFrom('noreply@langsci-press.org', 'Language Science Press');
-		/* // Default "From" to user if available, otherwise site/context principal contact
+		// Default "From" to user if available, otherwise site/context principal contact
 		if (!$context) {
 			$site = $request->getSite();
 			$this->setFrom($site->getLocalizedContactEmail(), $site->getLocalizedContactName());
 		} else {
 			$this->setFrom($context->getSetting('contactEmail'), $context->getSetting('contactName'));
-		}*/
+		}
 
 		if ($context && !$request->getUserVar('continued')) {
 			$this->setSubject('[' . $context->getLocalizedAcronym() . '] ' . $this->getSubject());
@@ -310,12 +301,6 @@ class MailTemplate extends Mail {
 			} else {
 				$this->setBody(str_replace('{$templateSignature}', $signature, $this->getBody()));
 			}
-
-			// Carola Fanselow: ersetzen von $senderName im gesamten body
-			if (!(strstr($this->getBody(), '{$senderName}') === false)) {
-				$this->setBody(str_replace('{$senderName}', Request::getUser()->getFullName(), $this->getBody()));
-			}
-			// Ende Carola Fanselow
 
 			$envelopeSender = $this->context->getSetting('envelopeSender');
 			if (!empty($envelopeSender) && Config::getVar('email', 'allow_envelope_sender')) $this->setEnvelopeSender($envelopeSender);
