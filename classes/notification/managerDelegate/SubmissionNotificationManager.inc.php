@@ -36,15 +36,9 @@ class SubmissionNotificationManager extends NotificationManagerDelegate {
 		$submissionDao = Application::getSubmissionDAO();
 		$submission = $submissionDao->getById($notification->getAssocId()); /* @var $submission Submission */
 
-		// Carola Fanselow: series title added to template for notifications about new submissions
-		$monographDAO = new MonographDAO;
-		$seriesDAO = new SeriesDAO;
-		$monograph = $monographDAO -> getById($notification->getAssocId());
-		$series = $seriesDAO -> getById($monograph->getSeriesId());
-
 		switch ($notification->getType()) {
 			case NOTIFICATION_TYPE_SUBMISSION_SUBMITTED:
-				return __('notification.type.submissionSubmitted', array('title' => $submission->getLocalizedTitle(),'series' => $series ->getLocalizedFullTitle()));
+				return __('notification.type.submissionSubmitted', array('title' => $submission->getLocalizedTitle()));
 			case NOTIFICATION_TYPE_METADATA_MODIFIED:
 				return __('notification.type.metadataModified', array('title' => $submission->getLocalizedTitle()));
 			case NOTIFICATION_TYPE_EDITOR_ASSIGNMENT_REQUIRED:
