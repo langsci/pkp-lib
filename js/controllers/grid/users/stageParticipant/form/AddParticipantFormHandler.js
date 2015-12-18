@@ -103,14 +103,42 @@
 		// clear any previous items.
 		$select.find('option[value!=""]').remove();
 
+		// sort users by last name before appending them (Carola Fanselow)
+		var userdata = [];
+		var count=0;
+		var lastNamesUnique = []; // array to sort keys
+ 
 		for (optionId in jsonData.content) {
 			$option = $('<option/>');
 			$option.attr('value', optionId);
-			$option.text(jsonData.content[optionId]);
-			$select.append($option);
+
+			var fullName = jsonData.content[optionId];
+			var indexOfLastName = fullName.lastIndexOf(" ")+1;  // there must be at least one space because first and last names are required
+			var lastName = fullName.substring(indexOfLastName);
+			var lastNameUnique =  lastName.concat(count); // add count to make key unique
+
+			$option.text(fullName);
+
+			userdata[lastNameUnique] = $option;  
+			lastNamesUnique[count] = lastNameUnique;
+			count = count+1;
 		}
+
+		lastNamesUnique.sort();	// sort keys
+
+		count = 0;
+		for(var key in userdata)
+		{
+			$select.append(userdata[lastNamesUnique[count]]); // append objects in sorted order
+			count = count+1;
+		}
+		// end Carola Fanselow
+
 	};
 
 
 /** @param {jQuery} $ jQuery closure. */
 }(jQuery));
+
+
+
