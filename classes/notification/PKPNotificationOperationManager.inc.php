@@ -443,7 +443,9 @@ abstract class PKPNotificationOperationManager implements INotificationInfoProvi
 			$mail->assignParams(array(
 				'notificationContents' => $this->getNotificationContents($request, $notification),
 				'url' => $this->getNotificationUrl($request, $notification),
-				'siteTitle' => $site->getLocalizedTitle()
+				'siteTitle' => $site->getLocalizedTitle(),
+				/*Carola Fanselow: add notification type as parameter*/
+				'notificationType' => $notification->getType()
 			));
 			$mail->addRecipient($user->getEmail(), $user->getFullName());
 			if (!HookRegistry::call('PKPNotificationOperationManager::sendNotificationEmail', array($notification))) { 
